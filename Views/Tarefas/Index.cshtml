@@ -1,0 +1,109 @@
+﻿@model IEnumerable<gestorTarefas.Models.Tarefa>
+
+@{
+    ViewData["Title"] = "Tarefas";
+}
+
+<h1>Listagem das Tarefas</h1>
+
+@using (Html.BeginForm())
+{
+    <label>@Html.RadioButton("rdb", "pendentes", true) Pendentes</label>
+    <label>@Html.RadioButton("rdb", "resolvidas") Resolvidas</label>
+    <br />
+    <span>Com Coima </span> @Html.CheckBox("coima",false)
+    
+    <div>
+    @Html.DropDownList("dropClientes", (SelectList)ViewBag.CLIENTES,"Selecione Cliente")
+    @Html.DropDownList("dropFuncionarios", (SelectList)ViewBag.FUNCIONARIOS,"Selecione Funcionário")
+    @Html.DropDownList("dropImportancias", (SelectList)ViewBag.IMPORTANCIAS,"Selecione Importância")
+    </div>
+    <br />
+    <input type="submit" value="Filtrar">
+
+}
+<br /><br />
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DataCriacao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataLimite)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataResolucao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Funcionario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Categoria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Importancia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Coima)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataCriacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataLimite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataResolucao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Funcionario.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categoria.Designacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Importancia.Designacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Coima)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                @Html.ActionLink("Ver Linhas de Tarefa", "Index", "LinhaTarefas", new {id=item.Id}) |
+                @Html.ActionLink("Resolver Tarefa", "ResolverTarefa", "Tarefas", new {id=item.Id})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
